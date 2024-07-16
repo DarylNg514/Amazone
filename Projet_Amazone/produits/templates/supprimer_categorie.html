@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Supprimer une catégorie</title>
+</head>
+
+<body>
+    <h1>Supprimer {{ categorie.nom }}</h1>
+
+    <p>Êtes-vous sûr de vouloir supprimer cette catégorie?</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Confirmer la suppression</button>
+    </form>
+
+</body>
+
+</html>

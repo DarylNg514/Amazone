@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion</title>
+    <title>Supprimer Compte</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
@@ -12,8 +12,9 @@
 <body>
     <div class="container">
         <div class="form">
-            <h1>Connexion</h1>
-
+            <h1>Supprimer votre compte</h1>
+            <p>Êtes-vous sûr de vouloir supprimer {{ user.username }}?<br>
+                Cette action est irréversible.</p>
             {% if messages %}
             <div class="error-messages">
                 {% for message in messages %}
@@ -22,17 +23,14 @@
             </div>
             {% endif %}
 
-            <form method="post" action="{% url 'connexion' %}">
+            <form method="post">
                 {% csrf_token %}
-                <label for="username">Nom d'utilisateur</label>
-                <input type="text" name="username" required>
-                <label for="password">Mot de passe</label>
-                <input type="password" name="password" required>
-                <button type="submit">Se connecter</button>
+                <button type="submit">Oui, supprimer</button>
             </form>
-            <p class="link">Pas encore inscrit ? <a href="{% url 'inscription' %}">S'inscrire</a></p>
+            <a href="{% url 'list_users' %}">Annuler</a>
         </div>
     </div>
+
 </body>
 
 </html>

@@ -1,5 +1,4 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm 
+from django.shortcuts import render, redirect,get_object_or_404
 from .form import *
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
@@ -7,6 +6,9 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect
+from django.core.paginator import Paginator
+
+
 
 # Create your views here.
 def inscription(request):
@@ -43,13 +45,13 @@ def deconnexion(request):
 def modifier_compte(request):
     user = request.user
     if request.method == 'POST':
-        form = CustomUserChangeForm(request.POST, instance=user)
+        form = CustomUserChangeFormClient(request.POST, instance=user)
         if form.is_valid():
             form.save()
             messages.success(request, 'Votre compte a été mis à jour avec succès.')
             return redirect('acceuil')
     else:
-        form = CustomUserChangeForm(instance=user)
+        form = CustomUserChangeFormClient(instance=user)
     return render(request, 'modifier_compte.html', {'form': form})
 
 @login_required
@@ -76,6 +78,40 @@ def supprimer_compte(request):
     return render(request, 'supprimer_compte.html')
 
 
+# List all users
+@login_required
+def list_users(request):
+    users = CustomUser.objects.all()
+    paginator = Paginator(users, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'list_users.html', {'page_obj': page_obj})
+
+# Update a user
+@login_required
+def update_user(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+    if request.method == 'POST':
+        form = CustomUserChangeForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'User updated successfully.')
+            return redirect('list_users')
+    else:
+        form = CustomUserChangeForm(instance=user)
+    return render(request, 'update_user.html', {'form': form})
+
+# Delete a user
+@login_required
+def delete_user(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+    if request.method == 'POST':
+        user.delete()
+        messages.success(request, 'User deleted successfully.')
+        return redirect('list_users')
+    return render(request, 'delete_user.html', {'user': user})
+
+
 def send_email_view(request):
     if request.method == 'POST':
         name = request.POST.get('name', '')
@@ -93,3 +129,4 @@ def send_email_view(request):
         return HttpResponseRedirect('/thank-you/')  # Rediriger vers une page de remerciement par exemple
 
     return render(request, 'your_template.html')  # Remplacez 'your_template.html' par le nom de votre template
+

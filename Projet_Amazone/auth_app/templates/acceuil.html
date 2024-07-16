@@ -1,6 +1,12 @@
 {% extends 'index.html' %}
-
+{% load static %}
 {% block content %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
 <nav class="navbar">
     <div class="navbar-container">
         <input type="checkbox" name="" id="checkbox">
@@ -11,7 +17,7 @@
         </div>
         <ul class="menu-items">
             <li><a href="#home">Home</a></li>
-            <li><a href="#sellers">Shop</a></li>
+            <li><a href="{% url 'liste_produits' %}">Shop</a></li>
             <li><a href="#news">Blog</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
@@ -26,13 +32,19 @@
             <img src="https://i.postimg.cc/t403yfn9/home2.jpg" alt="img ">
         </div>
         <div class="home_txt ">
-            <p class="collectio ">SUMMER COLLECTION</p>
-            <h2>FALL - WINTER<br>Collection 2023</h2>
+            <p class="collectio ">Bienvenue chez DL-CMSTORE</p>
+            <h2>Découvrez <br>l'Excellence</h2>
             <div class="home_label ">
-                <p>A specialist label creating luxury essentials. Ethically crafted<br>with an unwavering commitment
-                    to exceptional quality.</p>
+                <p>
+                    Chez DL-CMSTORE, chaque achat est une expérience<br> unique grâce à notre collection innovante et
+                    éthique.<br> Découvrez des appareils, vêtements et liste_produitss <br>éducatifs de qualité
+                    supérieure pour
+                    enrichir <br> votre quotidien dans un environnement de luxe<br> et d'innovation. Transformez vos
+                    moments ordinaires<br> en expériences extraordinaires en nous rejoignant.
+                </p>
+
             </div>
-            <button><a href="#sellers">SHOP NOW</a><i class='bx bx-right-arrow-alt'></i></button>
+            <button><a href="{% url 'liste_produits' %}">SHOP NOW</a><i class='bx bx-right-arrow-alt'></i></button>
             <div class="home_social_icons">
                 <a href="#"><i class='bx bxl-facebook'></i></a>
                 <a href="#"><i class='bx bxl-twitter'></i></a>
@@ -46,27 +58,33 @@
 <section id="collection">
     <div class="collections container">
         <div class="content">
-            <img src="https://i.postimg.cc/Xqmwr12c/clothing.webp" alt="img" />
+            <img src="{% static 'images/music.jpg' %}" alt="image" />
             <div class="img-content">
-                <p>Clothing Collections</p>
-                <button><a href="#sellers">SHOP NOW</a></button>
+                <p>Musique Collections</p>
+                <button><a href="{% url 'liste_produits' %}">Voir Plus</a></button>
             </div>
         </div>
         <div class="content2">
-            <img src="https://i.postimg.cc/8CmBZH5N/shoes.webp" alt="img" />
+            <img src="{% static 'images/educ.avif' %}" alt="img" />
             <div class="img-content2">
-                <p>Shoes Spring</p>
-                <button><a href="#sellers">SHOP NOW</a></button>
+                <p>Livres </p>
+                <button><a href="{% url 'liste_produits' %}">Voir Plus</a></button>
             </div>
         </div>
         <div class="content3">
-            <img src="https://i.postimg.cc/MHv7KJYp/access.webp" alt="img" />
+            <img src="{% static 'images/vetements.jpg' %}" alt="img" />
             <div class="img-content3">
-                <p>Accessories</p>
-                <button><a href="#sellers">SHOP NOW</a></button>
+                <p>Vêtements</p>
+                <button><a href="{% url 'liste_produits' %}">Voir Plus</a></button>
             </div>
         </div>
-    </div>
+        <div class="content3">
+            <img src="{% static 'images/cui.webp' %}" alt="img" />
+            <div class="img-content3">
+                <p>Appareils</p>
+                <button><a href="{% url 'liste_produits' %}">Voir plus</a></button>
+            </div>
+        </div>
 </section>
 <section id="sellers">
     <div class="seller container">
@@ -94,7 +112,7 @@
                         </div>
                     </div>
                     <div class="buy-now">
-                        <button><a href="https://codepen.io/sanketbodke/full/mdprZOq">Buy Now</a></button>
+                        <button><a href="{% url 'liste_produits' %}">Voir Plus</a></button>
                     </div>
                     <!-- <div class="add-cart">
                                     <button>Add To Cart</button>
@@ -123,7 +141,7 @@
                         </div>
                     </div>
                     <div class="buy-now">
-                        <button><a href="https://codepen.io/sanketbodke/full/mdprZOq">Buy Now</a></button>
+                        <button><a href="{% url 'liste_produits' %}">Voir plus</a></button>
                     </div>
                 </div>
             </div>
@@ -149,7 +167,7 @@
                         </div>
                     </div>
                     <div class="buy-now">
-                        <button><a href="https://codepen.io/sanketbodke/full/mdprZOq">Buy Now</a></button>
+                        <button><a href="{% url 'liste_produits' %}">Voir plus</a></button>
                     </div>
                 </div>
             </div>
@@ -175,7 +193,7 @@
                         </div>
                     </div>
                     <div class="buy-now">
-                        <button><a href="https://codepen.io/sanketbodke/full/mdprZOq">Buy Now</a></button>
+                        <button><a href="{% url 'liste_produits' %}">Voir plus</a></button>
                     </div>
                 </div>
             </div>
@@ -206,7 +224,7 @@
                         </div>
                     </div>
                     <div class="buy-now">
-                        <button><a href="https://codepen.io/sanketbodke/full/mdprZOq">Buy Now</a></button>
+                        <button><a href="{% url 'liste_produits' %}">Voir plus</a></button>
                     </div>
                 </div>
             </div>
@@ -232,7 +250,7 @@
                         </div>
                     </div>
                     <div class="buy-now">
-                        <button><a href="https://codepen.io/sanketbodke/full/mdprZOq">Buy Now</a></button>
+                        <button><a href="{% url 'liste_produits' %}">Voir plus</a></button>
                     </div>
                 </div>
             </div>
@@ -258,7 +276,7 @@
                         </div>
                     </div>
                     <div class="buy-now">
-                        <button><a href="https://codepen.io/sanketbodke/full/mdprZOq">Buy Now</a></button>
+                        <button><a href="{% url 'liste_produits' %}">Voir plus</a></button>
                     </div>
                 </div>
             </div>
@@ -284,7 +302,7 @@
                         </div>
                     </div>
                     <div class="buy-now">
-                        <button><a href="https://codepen.io/sanketbodke/full/mdprZOq">Buy Now</a></button>
+                        <button><a href="{% url 'liste_produits' %}">Voir plus</a></button>
                     </div>
                 </div>
             </div>
@@ -315,7 +333,7 @@
                         </div>
                     </div>
                     <div class="buy-now">
-                        <button><a href="https://codepen.io/sanketbodke/full/mdprZOq">Buy Now</a></button>
+                        <button><a href="{% url 'liste_produits' %}">Voir plus</a></button>
                     </div>
                 </div>
             </div>
@@ -341,7 +359,7 @@
                         </div>
                     </div>
                     <div class="buy-now">
-                        <button><a href="https://codepen.io/sanketbodke/full/mdprZOq">Buy Now</a></button>
+                        <button><a href="{% url 'liste_produits' %}">Voir Plus</a></button>
                     </div>
                 </div>
             </div>
@@ -367,7 +385,7 @@
                         </div>
                     </div>
                     <div class="buy-now">
-                        <button><a href="https://codepen.io/sanketbodke/full/mdprZOq">Buy Now</a></button>
+                        <button><a href="{% url 'liste_produits' %}">Voir plus</a></button>
                     </div>
                 </div>
             </div>
@@ -393,7 +411,7 @@
                         </div>
                     </div>
                     <div class="buy-now">
-                        <button><a href="https://codepen.io/sanketbodke/full/mdprZOq">Buy Now</a></button>
+                        <button><a href="{% url 'liste_produits' %}">Voir Plus</a></button>
                     </div>
                 </div>
             </div>
@@ -481,7 +499,7 @@
 <footer>
     <div class="footer-container container">
         <div class="content_1">
-            <img src="./images/logo4.jpg" alt="logo">
+            <img class="login__logo" src="{% static 'images/logo4.jpg' %}" width="" alt="Logo">
             <p>The customer is at the heart of our<br>unique business model, which includes<br>design.</p>
             <img src="https://i.postimg.cc/Nj9dgJ98/cards.png" alt="cards">
         </div>

@@ -1,4 +1,5 @@
 
+import os
 
 from pathlib import Path
 
@@ -35,7 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'auth_app'
+    'auth_app',
+    'produits',
     
 
 ]
@@ -81,7 +83,7 @@ DATABASES = {
     'USER': 'root', 
     'PASSWORD':'',
     'HOST': '127.0.0.1', 
-    'PORT': '3306', 
+    'PORT': '3306',
     }
     ,
     'sqlite': {
@@ -129,7 +131,19 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Ajouter ces lignes à la fin du fichier settings.py
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]

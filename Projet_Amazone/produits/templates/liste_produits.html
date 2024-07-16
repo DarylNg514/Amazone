@@ -1,0 +1,83 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des produits</title>
+    <link rel="stylesheet" href="{% static 'css/listeproduit.css' %}">
+</head>
+
+<body>
+
+    <div>
+        <form method="get" action="{% url 'recherche_produits' %}">
+            <input type="text" name="q" placeholder="Rechercher..." value="{{ query }}">
+            <button type="submit">Rechercher</button>
+        </form>
+    </div>
+
+    <nav class="navbar">
+        <ul>
+            <li><a href="{% url 'liste_produits' %}">Tous les produits</a></li>
+            {% for categorie in categories %}
+            <li><a href="{% url 'liste_produits' %}?categorie={{ categorie.id }}">{{ categorie.nom }}</a></li>
+            {% endfor %}
+        </ul>
+    </nav>
+
+    <div class="product-list">
+        {% for produit in page_obj %}
+        <div class="product-card">
+            <div class="product-image">
+                {% if produit.image %}
+                <img src="{{ produit.image.url }}" alt="{{ produit.nom }}">
+                {% endif %}
+            </div>
+            <div class="product-info">
+                <h3>{{ produit.nom }}</h3>
+                <p>{{ produit.description }}</p>
+                <p>Prix: {{ produit.prix }}€</p>
+                <p>Quantité:
+                    <input type="number" value="1" min="1" max="{{ produit.quantite }}" style="width: 50px;">
+                </p>
+            </div>
+            <div class="product-actions">
+                <button type="button"><i class="bi bi-cart-plus"></i> Ajouter au panier</button>
+                <button type="button"><i class="bi bi-credit-card"></i> Payer maintenant</button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+            <a href="?q={{ query }}&page=1">&laquo; first</a>
+            <a href="?q={{ query }}&page={{ page_obj.previous_page_number }}">previous</a>
+            {% else %}
+            <span class="disabled">&laquo; first</span>
+            <span class="disabled">previous</span>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+            <a href="?q={{ query }}&page={{ page_obj.next_page_number }}">next</a>
+            <a href="?q={{ query }}&page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% else %}
+            <span class="disabled">next</span>
+            <span class="disabled">last &raquo;</span>
+            {% endif %}
+        </span>
+    </div>
+
+</body>
+
+</html>
+{% endblock %}
