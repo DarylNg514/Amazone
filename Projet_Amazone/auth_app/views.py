@@ -123,7 +123,7 @@ def send_email_view(request):
             f'Message from {name}',
             f'From: {name} <{email}>\n\n{message}',
             settings.EMAIL_HOST_USER,  # Votre adresse e-mail (optionnelle)
-            ['ngueufangdaryl99@gmail.com'],  # Destinataire(s)
+            [''],  # Destinataire(s)
             fail_silently=False,
         )
         return HttpResponseRedirect('/thank-you/')  # Rediriger vers une page de remerciement par exemple
