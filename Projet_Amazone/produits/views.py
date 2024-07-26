@@ -164,3 +164,90 @@ def supprimer_auteur(request, auteur_id):
         auteur.delete()
         return redirect('liste_auteurs')
     return render(request, 'supprimer_auteur.html', {'auteur': auteur})
+
+def ajouter_au_panier(request, produit_id):
+    produit = get_object_or_404(Produit, id=produit_id)
+    panier = request.session.get('panier', {})
+
+    if request.method == 'POST':
+        quantite = int(request.POST.get('quantite', 1))
+        if str(produit_id) in panier:
+            panier[str(produit_id)]['quantite'] += quantite
+        else:
+            panier[str(produit_id)] = {
+                'nom': produit.nom,
+                'prix': float(produit.prix),
+                'quantite': quantite,
+                'image': produit.image.url if produit.image else None
+            }
+
+        request.session['panier'] = panier
+        return JsonResponse({'message': 'Produit ajouté au panier'}, status=200)
+
+    return redirect('liste_produits')
+
+def voir_panier(request):
+    panier = request.session.get('panier', {})
+    total = round(sum(item['prix'] * item['quantite'] for item in panier.values()), 2)
+    return render(request, 'panier.html', {'panier': panier, 'total': total})
+
+def supprimer_du_panier(request, produit_id):
+    panier = request.session.get('panier', {})
+    if str(produit_id) in panier:
+        del panier[str(produit_id)]
+        request.session['panier'] = panier
+    return redirect('voir_panier')
+
+def modifier_quantite(request, produit_id):
+    if request.method == 'POST':
+        panier = request.session.get('panier', {})
+        nouvelle_quantite = int(request.POST.get('quantite', 1))
+        if str(produit_id) in panier:
+            if nouvelle_quantite > 0:
+                panier[str(produit_id)]['quantite'] = nouvelle_quantite
+            else:
+                del panier[str(produit_id)]
+
+        request.session['panier'] = panier
+        return redirect('voir_panier')
+
+    return redirect('voir_panier')
+
+@login_required
+def payer(request):
+    if request.method == 'POST':
+        produit_id = request.POST.get('produit_id')
+        quantite = int(request.POST.get('quantite', 1))
+        produit = get_object_or_404(Produit, id=produit_id)
+        total = produit.prix * quantite
+
+        context = {
+            'produit': produit,
+            'quantite': quantite,
+            'total': format(total, '.2f') 
+        }
+
+        return render(request, 'payer.html', context)
+
+@login_required
+def paiement_succes(request):
+    return render(request, 'success.html', {'username': request.user.username})
+
+@login_required
+def payer_tout(request):
+    panier = request.session.get('panier', {})
+    total = sum(item['prix'] * item['quantite'] for item in panier.values())
+    quantite_totale = sum(item['quantite'] for item in panier.values())
+
+    context = {
+        'panier': panier,
+        'total': format(total, '.2f'),
+        'quantite_totale': quantite_totale
+    }
+
+    return render(request, 'payer_tout.html', context)
+
+def vider_panier(request):
+    if request.method == 'POST':
+        request.session['panier'] = {}
+    return redirect('voir_panier')

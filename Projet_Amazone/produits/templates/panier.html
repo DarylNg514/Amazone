@@ -1,0 +1,71 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Panier</title>
+    <link rel="stylesheet" href="{% static 'css/panier.css' %}">
+</head>
+
+<body>
+
+    <h2>Mon Panier</h2>
+    <div class="panier">
+        {% if panier %}
+        {% for produit_id, details in panier.items %}
+        <div class="panier-item">
+            <div class="panier-image">
+                {% if details.image %}
+                <img src="{{ details.image }}" alt="{{ details.nom }}">
+                {% endif %}
+            </div>
+            <div class="panier-info">
+                <h3>{{ details.nom }}</h3>
+                <p>Prix: {{ details.prix }}€</p>
+                <form method="post" action="{% url 'modifier_quantite' produit_id %}">
+                    {% csrf_token %}
+                    <label for="quantite">Quantité:</label>
+                    <input type="number" name="quantite" value="{{ details.quantite }}" min="1" style="width: 50px;">
+                    <button type="submit" class="btn btn-primary me-2"><i class="bi bi-save"></i></button>
+                </form>
+            </div>
+            <div class="panier-actions">
+                <form method="post" action="{% url 'supprimer_du_panier' produit_id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger"><i class="bi bi-trash"></i></button>
+                </form>
+                <form method="post" action="{% url 'payer' %}" style="display:inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="produit_id" value="{{ produit_id }}">
+                    <input type="hidden" name="quantite" value="{{ details.quantite }}">
+                    <button type="submit" class="btn btn-success"><i class="bi bi-credit-card"></i> Payer</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+        <div class="panier-total">
+            <h3>Total: {{ total }}€</h3>
+        </div>
+        <div class="panier-actions">
+            <form method="post" action="{% url 'payer_tout' %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-success"><i class="bi bi-credit-card"></i> Payer tout</button>
+            </form>
+            <form method="post" action="{% url 'vider_panier' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger"><i class="bi bi-trash"></i> Vider panier</button>
+            </form>
+        </div>
+        {% else %}
+        <p>Votre panier est vide.</p>
+        {% endif %}
+    </div>
+
+</body>
+
+</html>
+{% endblock %}

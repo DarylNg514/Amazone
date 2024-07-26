@@ -8,8 +8,6 @@ from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.paginator import Paginator
 
-
-
 # Create your views here.
 def inscription(request):
     if request.method == 'POST':
@@ -123,10 +121,9 @@ def send_email_view(request):
             f'Message from {name}',
             f'From: {name} <{email}>\n\n{message}',
             settings.EMAIL_HOST_USER,  # Votre adresse e-mail (optionnelle)
-            ['ngueufangdaryl99@gmail.com'],  # Destinataire(s)
+            [''],  # Destinataire(s)
             fail_silently=False,
         )
         return HttpResponseRedirect('/thank-you/')  # Rediriger vers une page de remerciement par exemple
 
     return render(request, 'your_template.html')  # Remplacez 'your_template.html' par le nom de votre template
-

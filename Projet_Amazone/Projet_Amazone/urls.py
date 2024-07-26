@@ -42,6 +42,18 @@ urlpatterns = [
     path('auteurs/modifier/<int:auteur_id>/', vs.modifier_auteur, name='modifier_auteur'),
     path('auteurs/supprimer/<int:auteur_id>/', vs.supprimer_auteur, name='supprimer_auteur'),
 
+    # Panier
+    path('ajouter_au_panier/<int:produit_id>/', vs.ajouter_au_panier, name='ajouter_au_panier'),
+    path('voir_panier/', vs.voir_panier, name='voir_panier'),
+    path('supprimer_du_panier/<int:produit_id>/', vs.supprimer_du_panier, name='supprimer_du_panier'),
+    path('vider_panier/', vs.vider_panier, name='vider_panier'),
+    path('modifier_quantite/<int:produit_id>/', vs.modifier_quantite, name='modifier_quantite'),
+
+    # Paiement URLs
+    path('payer/', vs.payer, name='payer'),
+    path('payer_tout/', vs.payer_tout, name='payer_tout'),
+    path('paiement_succes/', vs.paiement_succes, name='paiement_succes'),
+
 ]
 
 

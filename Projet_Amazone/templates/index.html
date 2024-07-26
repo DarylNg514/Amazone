@@ -21,19 +21,19 @@
 <body>
     <section class=" top-txt ">
         <div class="head container ">
-            <div class="head-txt ">
+            <div class="head-txt d-flex align-items-center justify-content-between me-5">
                 <a href="/">
-                    <img class="login__logo" src="{% static 'images/logo4.jpg' %}" width="" alt="Logo">
+                    <img class="login__logo" src="{% static 'images/logo4.jpg' %}" alt="Logo">
                 </a>
                 {% if user.is_authenticated %}
-                <p>
-                <h2>Bienvenue, {{ user.username }}!</h2>
-                </p>
+                <h5 class="welcome-message">Bienvenue, {{ user.username }} !</h5>
                 {% endif %}
             </div>
+
             <div class="sing_in_up">
                 {% if user.is_authenticated %}
                 <a href="{% url 'acceuil' %}">Acceuil</a>
+                <a href="{% url 'liste_produits' %}">Produits</a>
                 <a href="{% url 'modifier_compte' %}">Modifier le compte</a>
                 <a href="{% url 'supprimer_compte' %}">Supprimer le compte</a>
                 {% if user.is_staff or user.is_superuser %}
@@ -44,11 +44,15 @@
                 {% endif %}
                 <button style="border-radius: 7px;"><a href="{% url 'deconnexion' %}"
                         style="color: rgb(20, 19, 19);">Déconnexion</a></button>
+                <a class="btn btn-secondary ms-5" href="{% url 'voir_panier' %}">
+                    <i class="bi bi-cart4" id="cart-count">{{ request.session.panier|length }}</i>
+                </a>
                 {% else %}
                 <a href="{% url 'connexion' %}">SIGN IN</a>
                 <a href="{% url 'inscription' %}">SIGN UP</a>
                 {% endif %}
             </div>
+
         </div>
     </section>
 
@@ -56,6 +60,38 @@
         {% block content %}
         {% endblock %}
     </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const forms = document.querySelectorAll('form.add-to-cart-form');
+            forms.forEach(form => {
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    const url = this.action;
+                    const formData = new FormData(this);
+
+                    fetch(url, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                        }
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.message) {
+                                alert(data.message);
+                                location.reload();
+                            }
+                            if (data.total_articles !== undefined) {
+                                document.getElementById('cart-count').innerText = data.total_articles;
+                            }
+                        })
+                        .catch(error => console.error('Error:', error));
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

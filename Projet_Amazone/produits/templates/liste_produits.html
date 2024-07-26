@@ -8,11 +8,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Liste des produits</title>
-    <link rel="stylesheet" href="{% static 'css/listeproduit.css' %}">
+    <link rel="stylesheet" href="{% static 'css/listes_produit.css' %}">
 </head>
 
 <body>
 
+    <br>
     <div>
         <form method="get" action="{% url 'recherche_produits' %}">
             <input type="text" name="q" placeholder="Rechercher..." value="{{ query }}">
@@ -41,13 +42,21 @@
                 <h3>{{ produit.nom }}</h3>
                 <p>{{ produit.description }}</p>
                 <p>Prix: {{ produit.prix }}€</p>
-                <p>Quantité:
-                    <input type="number" value="1" min="1" max="{{ produit.quantite }}" style="width: 50px;">
-                </p>
             </div>
-            <div class="product-actions">
-                <button type="button"><i class="bi bi-cart-plus"></i> Ajouter au panier</button>
-                <button type="button"><i class="bi bi-credit-card"></i> Payer maintenant</button>
+            <div class="product-actions ">
+                <form class="add-to-cart-form" method="post" action="{% url 'ajouter_au_panier' produit.id %}">
+                    {% csrf_token %}
+                    <label for="quantite-{{ produit.id }}">Quantité:</label>
+                    <input type="number" name="quantite" id="quantite-{{ produit.id }}" value="1" min="1"
+                        max="{{ produit.quantite }}">
+                    <button type="submit"><i class="bi bi-cart-plus"></i> Ajouter au panier</button>
+                </form>
+                <form class="payer-form" method="post" action="{% url 'payer' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="produit_id" value="{{ produit.id }}">
+                    <input type="hidden" name="quantite" id="hidden-quantite-{{ produit.id }}" value="1">
+                    <button type="submit"><i class="bi bi-credit-card"></i> Payer maintenant</button>
+                </form>
             </div>
         </div>
         {% endfor %}
@@ -76,6 +85,20 @@
             {% endif %}
         </span>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const quantityInputs = document.querySelectorAll('input[type="number"][name="quantite"]');
+
+            quantityInputs.forEach(input => {
+                input.addEventListener('input', function () {
+                    const productId = this.id.split('-')[1];
+                    const hiddenInput = document.getElementById(`hidden-quantite-${productId}`);
+                    hiddenInput.value = this.value;
+                });
+            });
+        });
+    </script>
 
 </body>
 

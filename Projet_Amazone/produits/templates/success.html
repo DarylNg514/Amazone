@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful</title>
+    <!-- FONT AWESOME ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+        integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
+        crossorigin="anonymous" />
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/success.css' %}">
+</head>
+
+<body>
+
+    <div class="bloc">
+        <div class="success-logo">
+            <img src="{% static 'images/checked.png' %}">
+        </div>
+        <h1 class="font-title">Paiement réussi !</h1>
+        <p>Merci pour votre achat, {{ username }}. Votre paiement a été traité avec succès.
+            Nous vous remercions pour votre confiance et espérons que vous apprécierez votre achat.
+            Si vous avez des questions ou des préoccupations, n'hésitez pas à nous contacter.
+            Nous vous avertirons lorsque votre commande sera envoyée.</p>
+        <div class="center">
+            <a class="return" href="{% url 'liste_produits' %}">Retour à la boutique</a>
+        </div>
+    </div>
+
+</body>
+
+</html>

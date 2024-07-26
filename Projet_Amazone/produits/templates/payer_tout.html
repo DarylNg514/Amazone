@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paiement Tout</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/payer.css' %}">
+</head>
+
+<body>
+    <main>
+        <section>
+            <h1>Paiement de tous les articles</h1>
+            <p>Quantité d'articles: {{ quantite_totale }}</p>
+            <p>Total: {{ total }}€</p>
+            <div id="paypal-payment-button"></div>
+        </section>
+    </main>
+
+    <script
+        src="https://www.paypal.com/sdk/js?client-id=AV1Ca15_zDrbXNwGEsO-9nfiH89O3hYI_xWpbCQVW-EBBJ94mH3YmEFbCoMyyyMmX4dS7wUEC_wRF4Ah&currency=EUR"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const paypalButton = document.getElementById('paypal-payment-button');
+            afficherPayPal(paypalButton, "{{ total }}"); // Afficher le bouton PayPal avec le montant total
+        });
+
+        function afficherPayPal(paypalButton, total) {
+            paypal.Buttons({
+                style: {
+                    color: 'blue'
+                },
+                createOrder: function (data, actions) {
+                    return actions.order.create({
+                        purchase_units: [{
+                            amount: {
+                                value: total
+                            }
+                        }]
+                    });
+                },
+                onApprove: function (data, actions) {
+                    return actions.order.capture().then(function (details) {
+                        console.log(details);
+                        window.location.replace("{% url 'paiement_succes' %}");
+                    });
+                }
+            }).render(paypalButton);
+        }
+    </script>
+</body>
+
+</html>
