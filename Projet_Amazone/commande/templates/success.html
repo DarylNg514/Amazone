@@ -24,6 +24,18 @@
             Nous vous remercions pour votre confiance et espérons que vous apprécierez votre achat.
             Si vous avez des questions ou des préoccupations, n'hésitez pas à nous contacter.
             Nous vous avertirons lorsque votre commande sera envoyée.</p>
+        {% if commande %}
+        <h2>Détails de la commande</h2>
+        <p>Numéro de commande : {{ commande.id }}</p>
+        <p>Total : {{ commande.total }} €</p>
+        <p>Date : {{ commande.date }}</p>
+        <h3>Produits commandés :</h3>
+        <ul>
+            {% for item in commande.commandeproduit_set.all %}
+            <li>{{ item.produit.nom }} (x{{ item.quantite }})</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
         <div class="center">
             <a class="return" href="{% url 'liste_produits' %}">Retour à la boutique</a>
         </div>

@@ -1,5 +1,3 @@
-# shop/models.py
-
 from django.db import models
 
 class Categorie(models.Model):
@@ -23,7 +21,6 @@ class Produit(models.Model):
     auteurs = models.ManyToManyField(Auteur)
     image = models.ImageField(upload_to='produits/', blank=True, null=True)
     quantite = models.PositiveIntegerField(default=1)
-
 
     def __str__(self):
         return self.nom
