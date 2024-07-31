@@ -1,5 +1,6 @@
 # shop/views.py
-
+from PIL import Image
+import numpy as np
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Produit, Categorie, Auteur
 from django.core.paginator import Paginator
@@ -41,6 +42,39 @@ def recherche_produits(request):
 
     return render(request, 'recherche_produits.html', {'page_obj': page_obj, 'query': query})
 
+'''
+def image_similarity(image1, image2):
+    image1 = image1.resize((100, 100)).convert('L')
+    image2 = image2.resize((100, 100)).convert('L')
+    array1 = np.asarray(image1, dtype=np.int32)
+    array2 = np.asarray(image2, dtype=np.int32)
+    return np.sum(np.abs(array1 - array2))
+
+def recherche_produits(request):
+    query = request.GET.get('q')
+    image_file = request.FILES.get('image')
+
+    if query:
+        produits = Produit.objects.filter(
+            Q(nom__icontains=query) |
+            Q(auteurs__nom__icontains=query) |
+            Q(description__icontains=query)
+        ).distinct()
+    else:
+        produits = Produit.objects.all()
+
+    if image_file:
+        image = Image.open(image_file)
+        produits = [
+            produit for produit in produits
+            if produit.image and image_similarity(image, Image.open(produit.image.path)) < 10000  # Threshold to adjust
+        ]
+
+    paginator = Paginator(produits, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'recherche_produits.html', {'page_obj': page_obj, 'query': query})'''
 @login_required
 def produits(request):
     if request.path == '/produits/':

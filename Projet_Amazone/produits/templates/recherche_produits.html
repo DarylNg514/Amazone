@@ -1,3 +1,6 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -29,15 +32,13 @@
             {% if produit.image %}
             <img src="{{ produit.image.url }}" alt="{{ produit.nom }}" style="width:200px;height:auto;">
             {% endif %}
-            <!--<p>{% for auteur in produit.auteurs.all %}
-                {{ auteur.nom }}
-                {% if not forloop.last %}, {% endif %}
-                {% empty %}
-                No authors found.
-                {% endfor %}
-            </p>!-->
-            <p><button type="submit"><i class="bi bi-cart-plus">Ajouter Panier</i></button></p>
-            <p><button type="submit"><i class="bi bi-credit-card"> Payer Maintenant </i></button></p>
+            <form class="add-to-cart-form" method="post" action="{% url 'ajouter_au_panier' produit.id %}">
+                {% csrf_token %}
+                <label for="quantite-{{ produit.id }}">Quantité:</label>
+                <input type="number" name="quantite" id="quantite-{{ produit.id }}" value="1" min="1"
+                    max="{{ produit.quantite }}">
+                <button type="submit"><i class="bi bi-cart-plus"></i> Ajouter au panier</button>
+            </form>
         </li>
         {% empty %}
         <li>Aucun produit trouvé.</li>
@@ -73,3 +74,4 @@
 </body>
 
 </html>
+{% endblock %}

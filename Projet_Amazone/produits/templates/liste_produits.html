@@ -51,12 +51,6 @@
                         max="{{ produit.quantite }}">
                     <button type="submit"><i class="bi bi-cart-plus"></i> Ajouter au panier</button>
                 </form>
-                <form class="payer-form" method="post" action="{% url 'payer' %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="produit_id" value="{{ produit.id }}">
-                    <input type="hidden" name="quantite" id="hidden-quantite-{{ produit.id }}" value="1">
-                    <button type="submit"><i class="bi bi-credit-card"></i> Payer maintenant</button>
-                </form>
             </div>
         </div>
         {% endfor %}
@@ -85,20 +79,6 @@
             {% endif %}
         </span>
     </div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const quantityInputs = document.querySelectorAll('input[type="number"][name="quantite"]');
-
-            quantityInputs.forEach(input => {
-                input.addEventListener('input', function () {
-                    const productId = this.id.split('-')[1];
-                    const hiddenInput = document.getElementById(`hidden-quantite-${productId}`);
-                    hiddenInput.value = this.value;
-                });
-            });
-        });
-    </script>
 
 </body>
 

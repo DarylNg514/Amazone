@@ -42,6 +42,7 @@
                 <a href="{% url 'liste_auteurs' %}">Gestion des auteurs</a>
                 <a href="{% url 'list_users' %}">Gestion des utilisateurs</a>
                 <a href="{% url 'liste_Commandes'%}">Gestion des commandes</a>
+                <a href="http://localhost:8501/">Assistance virtuel</a>
                 {% endif %}
                 <button style="border-radius: 7px;"><a href="{% url 'deconnexion' %}"
                         style="color: rgb(20, 19, 19);">Déconnexion</a></button>
@@ -51,6 +52,8 @@
                 {% else %}
                 <a href="{% url 'connexion' %}">SIGN IN</a>
                 <a href="{% url 'inscription' %}">SIGN UP</a>
+                <a href="{% url 'liste_produits' %}">PRODUCTS</a>
+                <a href="http://localhost:8501/">Assistance virtuel</a>
                 <a class="btn btn-secondary ms-5" href="{% url 'voir_panier' %}">
                     <i class="bi bi-cart4" id="cart-count">{{ request.session.panier|length }}</i>
                 </a>

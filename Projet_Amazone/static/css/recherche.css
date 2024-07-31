@@ -94,3 +94,23 @@ li img {
         width: 100%;
     }
 }
+
+.upload-icon {
+    display: inline-block;
+    cursor: pointer;
+    color: #007bff;
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.upload-icon:hover {
+    background-color: #e2e6ea;
+}
+
+#upload-image {
+    display: none;
+}
